@@ -5,42 +5,55 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <EditText
-        android:id="@+id/nameEditText"
+<!--    <EditText-->
+<!--        android:id="@+id/nameEditText"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Name" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/addButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Add User" />-->
+
+<!-- textview added just for tests -->
+    <TextView
+        android:id="@+id/screen_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Name" />
+        android:text="screen_home" />
 
     <Button
-        android:id="@+id/addButton"
+        android:id="@+id/notification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add User" />
+        android:text="notification" />
 
     <!-- Spinner to display the list of users -->
-    <Spinner
-        android:id="@+id/userSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="16dp" />
+<!--    <Spinner-->
+<!--        android:id="@+id/userSpinner"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:paddingTop="16dp" />-->
 
-    <EditText
-        android:id="@+id/messageEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Type your message" />
+<!--    <EditText-->
+<!--        android:id="@+id/messageEditText"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Type your message" />-->
 
-    <Button
-        android:id="@+id/sendButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Send Message" />
+<!--    <Button-->
+<!--        android:id="@+id/sendButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Send Message" />-->
 
-    <Button
-        android:id="@+id/checkMsgButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Check Messages" />
+<!--    <Button-->
+<!--        android:id="@+id/checkMsgButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Check Messages" />-->
 
 
 </LinearLayout>

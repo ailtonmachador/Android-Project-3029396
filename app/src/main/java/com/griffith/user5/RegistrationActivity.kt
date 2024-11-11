@@ -18,7 +18,7 @@ class RegistrationActivity : AppCompatActivity() {
     private lateinit var confirmPasswordEditText: EditText
     private lateinit var registerButton: Button
     private lateinit var messageTextView: TextView
-    private lateinit var userRepository: UserRepository // Declare the userRepository variable
+    private lateinit var userRepository: UserRepository
 
     // Override onCreate method to set up the activity
     override fun onCreate(savedInstanceState: Bundle?) {

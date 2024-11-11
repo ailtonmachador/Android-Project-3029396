@@ -75,7 +75,7 @@ class UserRepository(context: Context) {
     @SuppressLint("Range")
     fun getMsgByName(name: String): List<String> {
         val db = dbHelper.readableDatabase
-        Log.d("Database", "---------------------------------Dados inseridos com sucesso: $name")
+
 
 
         val cursor: Cursor = db.rawQuery("SELECT message FROM messages WHERE user_id IN (SELECT id FROM users WHERE name = ?)", arrayOf(name))
