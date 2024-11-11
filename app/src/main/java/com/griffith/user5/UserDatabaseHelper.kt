@@ -17,6 +17,9 @@ import android.database.sqlite.SQLiteOpenHelper
  const val COLUMN_MESSAGE_ID = "message_id"
  const val COLUMN_PASSWORD = "password"
  const val COLUMN_MESSAGE = "message"
+ const val COLUMN_ROLE = "role" // Use for adm priveliges
+
+
 
 // UserDatabaseHelper class that extends SQLiteOpenHelper to manage database creation and version management
 class UserDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -25,10 +28,11 @@ class UserDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
     // Override the onCreate method to create the database tables
     override fun onCreate(db: SQLiteDatabase) {
         // SQL statement to create the users table
-        val createUsersTable = ("CREATE TABLE ${TABLE_USERS} ("
+        val createUsersTable = ("CREATE TABLE $TABLE_USERS ("
                 + "$COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "$COLUMN_NAME TEXT, "
-                + "$COLUMN_PASSWORD TEXT" + ")")
+                + "$COLUMN_PASSWORD TEXT, "
+                + "$COLUMN_ROLE TEXT" + ")")
         db.execSQL(createUsersTable)
 
 
@@ -39,6 +43,8 @@ class UserDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
                 + "$COLUMN_MESSAGE TEXT, "
                 + "FOREIGN KEY($COLUMN_USER_ID) REFERENCES $TABLE_USERS($COLUMN_ID)" + ")")
         db.execSQL(createMessagesTable)
+        //create admin user
+        insertInitialAdmin(db)
     }
 
     // Override the onUpgrade method to handle database version upgrades
@@ -48,4 +54,17 @@ class UserDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
         // Call onCreate to recreate the table
         onCreate(db)
     }
+
+    private fun insertInitialAdmin(db: SQLiteDatabase) {
+
+        // check if adm already exist
+        val cursor = db.rawQuery("SELECT * FROM $TABLE_USERS WHERE $COLUMN_ROLE = 'admin'", null)
+        if (cursor.count == 0) {// else crate adm user
+            val insertAdminSQL = ("INSERT INTO $TABLE_USERS ($COLUMN_NAME, $COLUMN_PASSWORD, $COLUMN_ROLE) "
+                    + "VALUES ('admin', 'admin', 'admin')")
+            db.execSQL(insertAdminSQL)
+        }
+        cursor.close()
+    }
+
 }
