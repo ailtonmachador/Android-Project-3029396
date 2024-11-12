@@ -11,11 +11,11 @@
 <!--        android:layout_height="wrap_content"-->
 <!--        android:hint="Name" />-->
 
-<!--    <Button-->
-<!--        android:id="@+id/addButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Add User" />-->
+    <Button
+        android:id="@+id/request_day_offBt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/request_day_off" />
 
 <!-- textview added just for tests -->
     <TextView

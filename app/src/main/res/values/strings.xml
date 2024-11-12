@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">user5</string>
+    <string name="request_day_off">request day off</string>
 </resources>

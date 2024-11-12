@@ -1,6 +1,5 @@
 package com.griffith.user5
 
-
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -12,7 +11,7 @@ class MainActivity : AppCompatActivity() {
     // Declare variables for the user repository and UI elements
     private lateinit var userRepository: UserRepository
 //    private lateinit var nameEditText: EditText
-//    private lateinit var addButton: Button
+    private lateinit var request_day_off: Button
     private lateinit var notification: Button
 
     // Called when the activity is starting
@@ -40,6 +39,7 @@ class MainActivity : AppCompatActivity() {
        // nameEditText = findViewById(R.id.nameEditText)
 //        addButton = findViewById(R.id.addButton)
         notification = findViewById(R.id.notification)
+        request_day_off = findViewById(R.id.request_day_offBt)
 
         // Handle the notification button click to open NotificationActivity
         notification.setOnClickListener {
@@ -48,11 +48,11 @@ class MainActivity : AppCompatActivity() {
             finish() // End the current MainActivity
         }
 
-//        // Handle the add button click to add a new user
-//        addButton.setOnClickListener {
-//            val name = nameEditText.text.toString() // Get the name input
-//            val password = "adadsa" // Temporary hardcoded password for user addition
-//            userRepository.addUser(name, password) // Add the user to the database
-//        }
+        // Handle the notification button click to open RequestActivity
+        request_day_off.setOnClickListener {
+            val intent = Intent(this, RequestActivity::class.java)
+            startActivity(intent) // Start the NotificationActivity
+            finish() // End the current MainActivity
+        }
     }
 }
