@@ -12,7 +12,7 @@ import android.util.Log
 class UserRepository(context: Context) {
 
     // Instantiate UserDatabaseHelper to manage database creation and access
-    private val dbHelper = UserDatabaseHelper(context)
+    val dbHelper = UserDatabaseHelper(context)
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
     // Add a new user to the database
@@ -140,5 +140,48 @@ class UserRepository(context: Context) {
         editor.putString("logged_in_username", username)
         editor.apply()
     }
+    //clear all clearSharedPreferences, used in logout
+    fun clearSharedPreferences() {
+        val editor = sharedPreferences.edit()
+        editor.clear() // clear data
+        editor.apply() // Confirm
+    }
+
+    fun addDayOffRequest(employeeName: String, requestDate: String) {
+        val db = dbHelper.writableDatabase
+        val values = ContentValues().apply {
+            put("employee_name", employeeName)
+            put("request_date", requestDate)
+            put("status", "PENDING") //Request initial state is pending
+        }
+        db.insert("requests", null, values)
+        db.close()
+    }
+
+    @SuppressLint("Range")
+    fun getPendingDayOffRequests(): List<DayOffRequest> {
+        val db = dbHelper.readableDatabase
+        val cursor: Cursor = db.rawQuery("SELECT * FROM requests WHERE status = 'PENDING'", null)
+
+        val requests = mutableListOf<DayOffRequest>()
+        while (cursor.moveToNext()) {
+            val id = cursor.getInt(cursor.getColumnIndex("id"))
+            val employeeName = cursor.getString(cursor.getColumnIndex("employee_name"))
+            val requestDate = cursor.getString(cursor.getColumnIndex("request_date"))
+            val status = cursor.getString(cursor.getColumnIndex("status"))
+
+            requests.add(DayOffRequest(id, employeeName, requestDate, status))
+        }
+        cursor.close()
+        return requests
+    }
 
 }
+
+data class DayOffRequest(
+    val id: Int,
+    val employeeName: String,
+    val requestDate: String,
+    val status: String
+)
+

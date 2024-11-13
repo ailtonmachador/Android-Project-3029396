@@ -5,11 +5,7 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-<!--    <EditText-->
-<!--        android:id="@+id/nameEditText"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:hint="Name" />-->
+
 
     <Button
         android:id="@+id/request_day_offBt"
@@ -30,30 +26,14 @@
         android:layout_height="wrap_content"
         android:text="notification" />
 
-    <!-- Spinner to display the list of users -->
-<!--    <Spinner-->
-<!--        android:id="@+id/userSpinner"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:paddingTop="16dp" />-->
 
-<!--    <EditText-->
-<!--        android:id="@+id/messageEditText"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:hint="Type your message" />-->
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="log out" />
 
-<!--    <Button-->
-<!--        android:id="@+id/sendButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Send Message" />-->
 
-<!--    <Button-->
-<!--        android:id="@+id/checkMsgButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Check Messages" />-->
 
 
 </LinearLayout>

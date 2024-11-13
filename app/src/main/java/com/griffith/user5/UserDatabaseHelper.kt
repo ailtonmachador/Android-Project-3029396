@@ -3,6 +3,7 @@ package com.griffith.user5
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 
 // Constants for database version and name
  const val DATABASE_VERSION = 1
@@ -43,6 +44,16 @@ class UserDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
                 + "$COLUMN_MESSAGE TEXT, "
                 + "FOREIGN KEY($COLUMN_USER_ID) REFERENCES $TABLE_USERS($COLUMN_ID)" + ")")
         db.execSQL(createMessagesTable)
+
+        // SQL statement to create the request day off table
+        val createRequestsTable = ("CREATE TABLE requests ("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "user_name TEXT, "
+                + "requested_date TEXT, "
+                + "status TEXT)")
+        db.execSQL(createRequestsTable)
+
+
         //create admin user
         insertInitialAdmin(db)
     }
@@ -66,5 +77,6 @@ class UserDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
         }
         cursor.close()
     }
+
 
 }

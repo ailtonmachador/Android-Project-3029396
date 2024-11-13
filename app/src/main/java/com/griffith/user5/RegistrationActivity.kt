@@ -6,8 +6,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.griffith.user5.R
-import com.griffith.user5.UserRepository
 
 // RegistrationActivity class that extends AppCompatActivity
 class RegistrationActivity : AppCompatActivity() {
