@@ -12,6 +12,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var logout: Button
     private lateinit var request_day_off: Button
     private lateinit var notification: Button
+    private lateinit var clockInButton: Button
 
     // Called when the activity is starting
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         logout = findViewById(R.id.logout)
         notification = findViewById(R.id.notification)
         request_day_off = findViewById(R.id.request_day_offBt)
+        clockInButton =  findViewById(R.id.clockIn)
 
         // Handle the notification button click to open NotificationActivity
         notification.setOnClickListener {
@@ -52,6 +54,15 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent) // Start the NotificationActivity
             finish() // End the current MainActivity
         }
+
+        // Handle the clockInButton button
+        clockInButton.setOnClickListener {
+            val intent = Intent(this, ClockInActivity::class.java)
+            startActivity(intent) // Start the NotificationActivity
+            finish() // End the current MainActivity
+        }
+
+
 
         logout.setOnClickListener {
             // clean repository for logout
