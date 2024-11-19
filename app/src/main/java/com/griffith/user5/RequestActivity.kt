@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 
-class RequestActivity : AppCompatActivity() {
+class RequestActivity : BaseActivity() {
 
     private lateinit var datePicker: DatePicker
     private lateinit var btnSubmitRequest: Button
@@ -29,6 +29,13 @@ class RequestActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_request)
+
+        //setupDrawer  for the navagationview
+        setupDrawer(
+            toolbarId = R.id.toolbar,
+            drawerLayoutId = R.id.drawer_layout,
+            navigationViewId = R.id.navigation_view
+        )
 
         // Initialize UI elements
         userRepository = UserRepository(this)

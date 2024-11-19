@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     // Declare variables for the user repository and UI elements
     private lateinit var userRepository: UserRepository
@@ -32,8 +32,17 @@ class MainActivity : AppCompatActivity() {
             return // Exit onCreate if the user is not authenticated
         }
 
+
         // Set the layout for this activity to activity_main.xml
         setContentView(R.layout.activity_main)
+
+        //setupDrawer  for the navagationview
+        setupDrawer(
+            toolbarId = R.id.toolbar,
+            drawerLayoutId = R.id.drawer_layout,
+            navigationViewId = R.id.navigation_view
+        )
+
 
         // Link UI components with their respective IDs in activity_main.xml
         logout = findViewById(R.id.logout)

@@ -6,7 +6,7 @@ import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
-class MessagesActivity : AppCompatActivity() {
+class MessagesActivity : BaseActivity() {
 
     private lateinit var userRepository: UserRepository
     private lateinit var messagesListView: ListView
@@ -14,6 +14,13 @@ class MessagesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_messages)
+
+        //setupDrawer  for the navagationview
+        setupDrawer(
+            toolbarId = R.id.toolbar,
+            drawerLayoutId = R.id.drawer_layout,
+            navigationViewId = R.id.navigation_view
+        )
 
         // Initialize user repository
         userRepository = UserRepository(this)

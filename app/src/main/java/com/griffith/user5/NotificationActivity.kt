@@ -12,7 +12,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
-class NotificationActivity : AppCompatActivity() {
+class NotificationActivity : BaseActivity() {
 
     // Declare variables for user repository and UI components
     private lateinit var userRepository: UserRepository
@@ -24,12 +24,18 @@ class NotificationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         // Initialize the user repository for database operations
         userRepository = UserRepository(this)
 
         // Set the content view to the notification layout
         setContentView(R.layout.notification)
-
+        //setupDrawer  for the navagationview
+        setupDrawer(
+            toolbarId = R.id.toolbar,
+            drawerLayoutId = R.id.drawer_layout,
+            navigationViewId = R.id.navigation_view
+        )
         // Link UI components with their IDs in the layout
         messageEditText = findViewById(R.id.messageEditText)
         userSpinner = findViewById(R.id.userSpinner)

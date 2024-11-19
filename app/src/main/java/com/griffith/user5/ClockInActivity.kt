@@ -11,7 +11,7 @@ import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
-class ClockInActivity : AppCompatActivity() {
+class ClockInActivity : BaseActivity() {
     // Declare variables to handle location and UI elements
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationTextView: TextView
@@ -25,6 +25,13 @@ class ClockInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_clock_in)
+
+        //setupDrawer  for the navagationview
+        setupDrawer(
+            toolbarId = R.id.toolbar,
+            drawerLayoutId = R.id.drawer_layout,
+            navigationViewId = R.id.navigation_view
+        )
 
         // Initialize UI elements (TextView and Button)
         locationTextView = findViewById(R.id.locationTextView)
