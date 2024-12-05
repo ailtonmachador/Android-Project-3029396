@@ -12,6 +12,11 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
+/**
+ * NotificationActivity handles the functionality for sending and viewing notifications.
+ * It allows the user to send messages to a selected user and check their received messages.
+ * The activity retrieves user information from a database and displays it in the UI components.
+ */
 class NotificationActivity : BaseActivity() {
 
     // Declare variables for user repository and UI components
@@ -24,18 +29,19 @@ class NotificationActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         // Initialize the user repository for database operations
         userRepository = UserRepository(this)
 
         // Set the content view to the notification layout
         setContentView(R.layout.notification)
-        //setupDrawer  for the navagationview
+
+        // Setup the navigation drawer
         setupDrawer(
             toolbarId = R.id.toolbar,
             drawerLayoutId = R.id.drawer_layout,
             navigationViewId = R.id.navigation_view
         )
+
         // Link UI components with their IDs in the layout
         messageEditText = findViewById(R.id.messageEditText)
         userSpinner = findViewById(R.id.userSpinner)
@@ -46,12 +52,11 @@ class NotificationActivity : BaseActivity() {
         sendButton.setOnClickListener {
             val selectedUserName = userSpinner.selectedItem.toString() // Get selected user from spinner
             val message = messageEditText.text.toString() // Get message input
-
             // Retrieve the user ID based on the selected user name
             val userId = userRepository.getUserIdByName(selectedUserName)
 
             if (userId != null) {
-                userRepository.sendMessage(userId, message) // Send the message to the user
+                // Log the user ID and message for debugging
                 Log.d("NotificationActivity", "User ID: $userId, Message: $message")
                 Toast.makeText(this, "Message sent!", Toast.LENGTH_SHORT).show() // Show confirmation
             } else {
@@ -59,6 +64,7 @@ class NotificationActivity : BaseActivity() {
             }
         }
 
+        // Handle the check messages button click to navigate to the messages activity
         checkMsgButton.setOnClickListener {
             val intent = Intent(this, MessagesActivity::class.java)
             startActivity(intent)

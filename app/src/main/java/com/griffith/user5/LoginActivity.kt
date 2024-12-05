@@ -46,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
                 //save name in preference
                 userRepository.setLoggedInUserName(username)
 
-                // Optionally, set user authentication status
+                //  set user authentication status
                 userRepository.setUserAuthenticated(true)
 
                 // If valid, set the user as authenticated
@@ -54,6 +54,7 @@ class LoginActivity : AppCompatActivity() {
                 // Show a toast message indicating successful login
                 Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
                 //save user name
+                val messages = userRepository.getMsgByName(userRepository.getLoggedInUserName() ?: "")
 
                 // Log the successful login event
                 Log.d("LoginActivity", "Login successful, navigating to MainActivity")

@@ -4,7 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-
+/**
+ * MainActivity is the entry point after user login.
+ * It verifies authentication, sets up the UI and navigation drawer,
+ * and provides access to features like notifications, day-off requests, and clock-in.
+ */
 class MainActivity : BaseActivity() {
 
     // Declare variables for the user repository and UI elements
@@ -13,6 +17,7 @@ class MainActivity : BaseActivity() {
     private lateinit var request_day_off: Button
     private lateinit var notification: Button
     private lateinit var clockInButton: Button
+    private lateinit var RequestButton: Button
 
     // Called when the activity is starting
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,17 +54,18 @@ class MainActivity : BaseActivity() {
         notification = findViewById(R.id.notification)
         request_day_off = findViewById(R.id.request_day_offBt)
         clockInButton =  findViewById(R.id.clockIn)
+        RequestButton =  findViewById(R.id.request_day_offBt)//to delete
 
-        // Handle the notification button click to open NotificationActivity
-        notification.setOnClickListener {
-            val intent = Intent(this, NotificationActivity::class.java)
+
+        RequestButton.setOnClickListener {
+            val intent = Intent(this, SelectDayOff::class.java)
             startActivity(intent) // Start the NotificationActivity
             finish() // End the current MainActivity
         }
 
-        // Handle the notification button click to open RequestActivity
-        request_day_off.setOnClickListener {
-            val intent = Intent(this, RequestActivity::class.java)
+        // Handle the notification button click to open NotificationActivity
+        notification.setOnClickListener {
+            val intent = Intent(this, NotificationActivity::class.java)
             startActivity(intent) // Start the NotificationActivity
             finish() // End the current MainActivity
         }

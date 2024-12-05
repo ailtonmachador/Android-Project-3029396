@@ -8,7 +8,10 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
 
-// UserRepository class handles database operations related to users
+/**
+ The UserRepository class handles all database operations related to users, including adding users, validating credentials,
+ sending messages, and checking authentication status. It also interacts with SharedPreferences to manage user session.
+ */
 class UserRepository(context: Context) {
 
     // Instantiate UserDatabaseHelper to manage database creation and access
@@ -147,41 +150,61 @@ class UserRepository(context: Context) {
         editor.apply() // Confirm
     }
 
-    fun addDayOffRequest(employeeName: String, requestDate: String) {
-        val db = dbHelper.writableDatabase
-        val values = ContentValues().apply {
-            put("employee_name", employeeName)
-            put("request_date", requestDate)
-            put("status", "PENDING") //Request initial state is pending
-        }
-        db.insert("requests", null, values)
-        db.close()
-    }
+//    fun addDayOffRequest(employeeName: String, requestDate: String) {
+//        val db = dbHelper.writableDatabase
+//        val values = ContentValues().apply {
+//            put("user_name", employeeName)
+//            put("requested_date", requestDate)
+//            put("status", "PENDING") //Request initial state is pending
+//        }
+//        db.insert("requests", null, values)
+//        db.close()
+//    }
 
-    @SuppressLint("Range")
-    fun getPendingDayOffRequests(): List<DayOffRequest> {
-        val db = dbHelper.readableDatabase
-        val cursor: Cursor = db.rawQuery("SELECT * FROM requests WHERE status = 'PENDING'", null)
+//    fun approveDayOffRequest(requestId: Int, userName: String) {
+//        val db = dbHelper.writableDatabase
+//        val values = ContentValues().apply {
+//            put("status", "APPROVED")
+//        }
+//        db.update("requests", values, "id = ?", arrayOf(requestId.toString()))
+//        db.close()
+//
+//        // Enviar notificação para o usuário logado
+//        val userId = getUserIdByName(userName)
+//        if (userId != null) {
+//            val message = "Seu pedido de folga foi aprovado!"
+//            sendMessage(userId, message)
+//        }
+//    }
 
-        val requests = mutableListOf<DayOffRequest>()
-        while (cursor.moveToNext()) {
-            val id = cursor.getInt(cursor.getColumnIndex("id"))
-            val employeeName = cursor.getString(cursor.getColumnIndex("employee_name"))
-            val requestDate = cursor.getString(cursor.getColumnIndex("request_date"))
-            val status = cursor.getString(cursor.getColumnIndex("status"))
 
-            requests.add(DayOffRequest(id, employeeName, requestDate, status))
-        }
-        cursor.close()
-        return requests
-    }
+
+
+
+//    @SuppressLint("Range")
+//    fun getPendingDayOffRequests(): List<DayOffRequest> {
+//        val db = dbHelper.readableDatabase
+//        val cursor: Cursor = db.rawQuery("SELECT * FROM requests WHERE status = 'PENDING'", null)
+//
+//        val requests = mutableListOf<DayOffRequest>()
+//        while (cursor.moveToNext()) {
+//            val id = cursor.getInt(cursor.getColumnIndex("id"))
+//            val employeeName = cursor.getString(cursor.getColumnIndex("employee_name"))
+//            val requestDate = cursor.getString(cursor.getColumnIndex("request_date"))
+//            val status = cursor.getString(cursor.getColumnIndex("status"))
+//
+//            requests.add(DayOffRequest(id, employeeName, requestDate, status))
+//        }
+//        cursor.close()
+//        return requests
+//    }
 
 }
 
-data class DayOffRequest(
-    val id: Int,
-    val employeeName: String,
-    val requestDate: String,
-    val status: String
-)
+//data class DayOffRequest(
+//    val id: Int,
+//    val employeeName: String,
+//    val requestDate: String,
+//    val status: String
+//)
 

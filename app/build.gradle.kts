@@ -67,7 +67,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.play.services.location) // Adicione a dependência do AppCompat
+    implementation(libs.play.services.location)
+    implementation(libs.androidx.recyclerview) // Adicione a dependência do AppCompat
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

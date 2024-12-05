@@ -11,64 +11,118 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <!-- Toolbar -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+            <!-- Log Out Button -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginBottom="16dp">
 
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Log Out" />
+                <Button
+                    android:id="@+id/logout"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:background="@drawable/ic_logout" />
 
+                <TextView
+                    android:id="@+id/buttonLabel_sendMensage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Log Out"
+                    android:textSize="14sp"
+                    android:textColor="#000000"
+                    android:gravity="center" />
+            </LinearLayout>
 
-    <Button
-        android:id="@+id/request_day_offBt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/request_day_off" />
+            <!-- Request Day Off Button -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginBottom="16dp">
 
-<!-- textview added just for tests -->
-    <TextView
-        android:id="@+id/screen_home"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="screen_home" />
+                <Button
+                    android:id="@+id/request_day_offBt"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:background="@drawable/ic_request_day_off" />
 
-    <Button
-        android:id="@+id/notification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="notification" />
+                <TextView
+                    android:id="@+id/buttonLabel_dayOff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Request Day Off"
+                    android:textSize="14sp"
+                    android:textColor="#000000"
+                    android:gravity="center" />
+            </LinearLayout>
 
-    <Button
-        android:id="@+id/clockIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Clock In" />
+            <!-- Notification Button -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginBottom="16dp">
 
+                <Button
+                    android:id="@+id/notification"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:background="@drawable/ic_notifications" />
 
+                <TextView
+                    android:id="@+id/buttonNotification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Notification"
+                    android:textSize="14sp"
+                    android:textColor="#000000"
+                    android:gravity="center" />
+            </LinearLayout>
 
-<!--    <Button-->
-<!--        android:id="@+id/logout"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="log out" />-->
+            <!-- Clock In Button -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginBottom="16dp">
 
+                <Button
+                    android:id="@+id/clockIn"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:background="@drawable/ic_clock_in" />
+
+                <TextView
+                    android:id="@+id/buttonClockIO"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Clock In"
+                    android:textSize="14sp"
+                    android:textColor="#000000"
+                    android:gravity="center" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
-    </LinearLayout>
 
-    <!-- Navigation Drawer -->
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"

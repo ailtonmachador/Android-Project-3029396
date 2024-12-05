@@ -35,7 +35,7 @@ class MessagesActivity : BaseActivity() {
         val messages = userRepository.getMsgByName(loggedInUserName)
 
         if (messages.isNotEmpty()) {
-            // Use  ArrayAdapter to show messages in ListView
+            // ArrayAdapter to show messages in ListView
             val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, messages)
             messagesListView.adapter = adapter
         } else {
