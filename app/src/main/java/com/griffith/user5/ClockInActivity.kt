@@ -1,8 +1,11 @@
 package com.griffith.user5
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -10,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import kotlin.math.pow
 
 class ClockInActivity : BaseActivity() {
     // Declare variables to handle location and UI elements
@@ -18,9 +22,10 @@ class ClockInActivity : BaseActivity() {
     private lateinit var checkInButton: Button
 
     // Variables to define the allowed location for check-in (Griffith College campus in this case)
-    private val allowedLatitude = 53.330556 // Latitude of the allowed location
-    private val allowedLongitude = -6.278333 // Longitude of the allowed location
-    private val allowedRadius = 100 // Radius in meters for the allowed check-in area
+    private var allowedLatitude = 0.0 // Latitude of the allowed location
+    private var allowedLongitude = 0.0// Longitude of the allowed location
+    private var allowedRadius = 0.0 // Radius in meters for the allowed check-in area
+    private lateinit var userRepository: UserRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +37,21 @@ class ClockInActivity : BaseActivity() {
             drawerLayoutId = R.id.drawer_layout,
             navigationViewId = R.id.navigation_view
         )
+
+        userRepository = UserRepository(this)
+        //list to retrive location from DB and set to the variable lat, lon,rad
+        val myMutableList: List<Triple<Double, Double, Double>> = userRepository.getClockinLocations()
+        if (myMutableList.isNotEmpty()) {
+             allowedLatitude = myMutableList[0].first  // Lat
+            Log.d(TAG, "---> LAT: $$allowedLatitude ")
+             allowedLongitude = myMutableList[0].second // Long
+            Log.d(TAG, "---> LOG: $$allowedLongitude ")
+             allowedRadius =  myMutableList[0].third // Rad
+            Log.d(TAG, "---> RAD: $$allowedRadius ")
+        } else {
+            println("No locations found")
+        }
+
 
         // Initialize UI elements (TextView and Button)
         locationTextView = findViewById(R.id.locationTextView)
@@ -62,6 +82,7 @@ class ClockInActivity : BaseActivity() {
     }
 
     // Method to get the last known location of the device
+    @SuppressLint("SetTextI18n")
     private fun getLastLocation() {
         // Check if location permissions are granted
         if (ActivityCompat.checkSelfPermission(
@@ -86,11 +107,14 @@ class ClockInActivity : BaseActivity() {
                     // Check if the location is within the allowed area
                     if (isWithinAllowedArea(latitude, longitude)) {
                         // If within the allowed area, show success message
-                        locationTextView.text = "Check-in done in the permited location"
+                        locationTextView.text = "Check-in done in the permited location $latitude $longitude"
                         Toast.makeText(this, "Check-in done!", Toast.LENGTH_SHORT).show()
                     } else {
                         // If outside the allowed area, show error message
-                        locationTextView.text = "You are not in the permited location for check-in!"
+                        locationTextView.text = "You are not in the permited location for check-in!" +
+                                "$latitude, $longitude" +
+                                "you should be in $allowedLatitude, $allowedLongitude with radios $allowedRadius"
+
                         Toast.makeText(
                             this,
                             "You need to be in the permited location for check-in.",
@@ -104,18 +128,46 @@ class ClockInActivity : BaseActivity() {
             }
     }
 
+    private fun haversineDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
+        val R = 6371 // Radius of the Earth in kilometers
+        val lat1Rad = Math.toRadians(lat1) // Convert latitude of point 1 to radians
+        val lon1Rad = Math.toRadians(lon1) // Convert longitude of point 1 to radians
+        val lat2Rad = Math.toRadians(lat2) // Convert latitude of point 2 to radians
+        val lon2Rad = Math.toRadians(lon2) // Convert longitude of point 2 to radians
+
+        // Calculate the differences in latitude and longitude between the two points
+        val deltaLat = lat2Rad - lat1Rad
+        val deltaLon = lon2Rad - lon1Rad
+
+        // Apply the Haversine formula to calculate the central angle between the two points
+        val a = Math.sin(deltaLat / 2).pow(2) +
+                Math.cos(lat1Rad) * Math.cos(lat2Rad) * Math.sin(deltaLon / 2).pow(2)
+        val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+
+        // Distance in kilometers multiplied by 1000 to convert to meters
+        return R * c * 1000
+    }
+
     // Method to check if the current location is within the allowed area
     private fun isWithinAllowedArea(currentLat: Double, currentLng: Double): Boolean {
-        val results = FloatArray(1)
         // Calculate the distance between the current location and the allowed location
-        android.location.Location.distanceBetween(
-            currentLat, currentLng,
-            allowedLatitude, allowedLongitude,
-            results
-        )
-        // Return true if the distance is within the allowed radius
-        return results[0] <= allowedRadius
+        val distance = haversineDistance(currentLat, currentLng, allowedLatitude, allowedLongitude)
+
+        // Log the distance for debugging
+        Log.d(TAG, "Distance between current location and allowed location: $distance meters")
+
+        // Log the coordinates for debugging purposes
+        Log.d(TAG, "Current location: $currentLat, $currentLng  Allowed location: $allowedLatitude, $allowedLongitude")
+
+        // Debug log for the calculated distance
+        val d = distance
+        Log.d(TAG, "isWithinAllowedArea: distance $d")
+
+        // Return true if the calculated distance is within the allowed radius
+        return distance <= allowedRadius
     }
+
+
 
     // Handle the result of the permission request
     override fun onRequestPermissionsResult(

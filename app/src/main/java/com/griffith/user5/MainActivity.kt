@@ -3,6 +3,7 @@ package com.griffith.user5
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 /**
  * MainActivity is the entry point after user login.
@@ -18,6 +19,14 @@ class MainActivity : BaseActivity() {
     private lateinit var notification: Button
     private lateinit var clockInButton: Button
     private lateinit var RequestButton: Button
+    private lateinit var mapButton: Button
+    private lateinit var mapTxt : TextView
+
+    // Flag to determine if the logged-in user is a manager
+    private var isManager: Boolean = false
+    private val userDatabaseHelper = UserDatabaseHelper(this)
+
+
 
     // Called when the activity is starting
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,8 +35,11 @@ class MainActivity : BaseActivity() {
         // Initialize the user repository for database operations
         userRepository = UserRepository(this)
 
-        // Retrieve the logged-in user's name (if needed for future use)
-        val userLogin = userRepository.getLoggedInUserName()
+        // Check if the logged-in user is a manager
+        val loggedInUser = userRepository.getLoggedInUserName()
+        isManager = loggedInUser?.let {
+            userRepository.checkUserAdmin(userDatabaseHelper.readableDatabase, it)
+        } ?: false
 
         // Check if the user is authenticated; if not, redirect to LoginActivity
         if (!userRepository.isUserAuthenticated()) {
@@ -54,8 +66,24 @@ class MainActivity : BaseActivity() {
         notification = findViewById(R.id.notification)
         request_day_off = findViewById(R.id.request_day_offBt)
         clockInButton =  findViewById(R.id.clockIn)
-        RequestButton =  findViewById(R.id.request_day_offBt)//to delete
+        RequestButton =  findViewById(R.id.request_day_offBt)
+        mapButton =  findViewById(R.id.mapButton)
+        mapTxt = findViewById(R.id.map)
 
+        //MAP ONLY VISIBLE FOR ADM
+        if (isManager) {
+            mapButton.visibility = Button.VISIBLE
+            mapTxt.visibility = TextView.VISIBLE
+        } else {
+            mapButton.visibility = Button.GONE
+            mapTxt.visibility = TextView.GONE
+        }
+
+        mapButton.setOnClickListener {
+            val intent = Intent(this, Map::class.java)
+            startActivity(intent) // Start the NotificationActivity
+            finish() // End the current MainActivity
+        }
 
         RequestButton.setOnClickListener {
             val intent = Intent(this, SelectDayOff::class.java)
@@ -91,3 +119,4 @@ class MainActivity : BaseActivity() {
         }
     }
 }
+

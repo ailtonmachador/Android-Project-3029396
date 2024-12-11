@@ -118,6 +118,20 @@
                     android:textSize="14sp"
                     android:textColor="#000000"
                     android:gravity="center" />
+
+                <Button
+                    android:id="@+id/mapButton"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:background="@drawable/osm_ic_center_map" />
+                <TextView
+                    android:id="@+id/map"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MAP"
+                    android:textSize="14sp"
+                    android:textColor="#000000"
+                    android:gravity="center" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

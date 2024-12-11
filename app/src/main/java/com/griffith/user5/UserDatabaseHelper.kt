@@ -7,21 +7,25 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 
 // Constants for database version and name
- const val DATABASE_VERSION = 1
- const val DATABASE_NAME = "user_database"
+const val DATABASE_VERSION = 1
+const val DATABASE_NAME = "user_database"
 
 // Constants for table and column names
- const val TABLE_USERS = "users"
- const val TABLE_MESSAGES = "messages"
+const val TABLE_USERS = "users"
+const val TABLE_MESSAGES = "messages"
 const val TABLE_REQUEST = "request"
- const val COLUMN_ID = "id"
- const val COLUMN_NAME = "name"
- const val COLUMN_USER_ID = "user_id" // Foreign key for users
- const val COLUMN_USER_ID2 = "user_id"
- const val COLUMN_MESSAGE_ID = "message_id"
- const val COLUMN_PASSWORD = "password"
- const val COLUMN_MESSAGE = "message"
+const val TABLE_CLOCKIN = "clockin"
+const val COLUMN_ID = "id"
+const val COLUMN_NAME = "name"
+const val COLUMN_USER_ID = "user_id" // Foreign key for users
+const val COLUMN_USER_ID2 = "user_id"
+const val COLUMN_MESSAGE_ID = "message_id"
+const val COLUMN_PASSWORD = "password"
+const val COLUMN_MESSAGE = "message"
 const val COLUMN_ROLE = "role" // Use for adm privileges
+const val COLUMN_LAT = "lat"
+const val   COLUMN_LON = "lon"
+const val COLUMN_RAD = "rad"
 const val COLUMN_USER_NAME = "user_name"
 const val COLUMN_REQUEST_DAY ="requested_date"
 const val COLUMN_STATUS = "status"
@@ -54,6 +58,16 @@ class UserDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
         Log.d("UserDatabaseHelper", "Creating messages table")
         db.execSQL(createMessagesTable)
 
+        // Create the clock in table
+        val createClockInTable = ("CREATE TABLE $TABLE_CLOCKIN ("
+                + "$COLUMN_LAT REAL, " //lat
+                + "$COLUMN_LON REAL, "  //lon
+                + "$COLUMN_RAD REAL)") //rad
+
+        Log.d("UserDatabaseHelper", "Creating clock-in table")
+
+        db.execSQL(createClockInTable)
+
         // Create the requests table for day-off requests
         val createRequestsTable = ("CREATE TABLE requests ("
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -72,6 +86,7 @@ class UserDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
         db.execSQL("DROP TABLE IF EXISTS $TABLE_USERS") // Drop users table
         db.execSQL("DROP TABLE IF EXISTS $TABLE_MESSAGES") // Drop messages table
         db.execSQL("DROP TABLE IF EXISTS $TABLE_REQUEST") // Drop requests table
+        db.execSQL("DROP TABLE IF EXISTS $TABLE_CLOCKIN") // Drop clock in table
         onCreate(db) // Recreate tables
     }
 

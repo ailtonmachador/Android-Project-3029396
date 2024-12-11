@@ -2,6 +2,7 @@ package com.griffith.user5
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.SharedPreferences
 import android.database.Cursor
@@ -9,8 +10,8 @@ import android.database.sqlite.SQLiteDatabase
 import android.util.Log
 
 /**
- The UserRepository class handles all database operations related to users, including adding users, validating credentials,
- sending messages, and checking authentication status. It also interacts with SharedPreferences to manage user session.
+The UserRepository class handles all database operations related to users, including adding users, validating credentials,
+sending messages, and checking authentication status. It also interacts with SharedPreferences to manage user session.
  */
 class UserRepository(context: Context) {
 
@@ -74,12 +75,59 @@ class UserRepository(context: Context) {
         db.close() // Close the database connection
     }
 
+    //update location  for clock in
+    fun updateClockin(lat: Double, lon: Double, rad: Double) {
+        val db = dbHelper.writableDatabase
+        db.execSQL("DELETE FROM $TABLE_CLOCKIN") // Clear previous data
+        val contentValues = ContentValues().apply {
+            put(COLUMN_LAT, lat)
+            put(COLUMN_LON, lon)
+            put(COLUMN_RAD, rad)
+        }
+        db.insert(TABLE_CLOCKIN, null, contentValues)
+    }
+
+
+
+    //retrive location already set for user do clock in
+    fun getClockinLocations(): List<Triple<Double, Double, Double>> {
+        val db = dbHelper.readableDatabase
+        val locations = mutableListOf<Triple<Double, Double, Double>>() // list to store results
+
+        val cursor = db.query(
+            "clockin",
+            arrayOf("lat", "lon", "rad"),
+            null,
+            null,
+            null,
+            null,
+            null
+        )
+
+        if (cursor.moveToFirst()) {
+            do {
+                val lat = cursor.getDouble(cursor.getColumnIndexOrThrow("lat")) // get lat
+                Log.d(TAG, "---> 2 Marker updated at $lat ")
+                val lon = cursor.getDouble(cursor.getColumnIndexOrThrow("lon")) // get lon
+                Log.d(TAG, "---> 2 Marker updated at $lon ")
+                val rad = cursor.getDouble(cursor.getColumnIndexOrThrow("rad")) // get rad
+                Log.d(TAG, "---> 2 Marker updated at $rad ")
+                locations.add(Triple(lat, lon, rad)) //add results
+            } while (cursor.moveToNext())
+        }
+
+        cursor.close()
+        db.close()
+
+        return locations // return location list
+    }
+
+
+
     // Get messages by user name
     @SuppressLint("Range")
     fun getMsgByName(name: String): List<String> {
         val db = dbHelper.readableDatabase
-
-
 
         val cursor: Cursor = db.rawQuery("SELECT message FROM messages WHERE user_id IN (SELECT id FROM users WHERE name = ?)", arrayOf(name))
 
@@ -135,6 +183,16 @@ class UserRepository(context: Context) {
     // Retrieve the logged-in user's name
     fun getLoggedInUserName(): String? {
         return sharedPreferences.getString("logged_in_username", null)
+    }
+
+    /**
+     * Checks if the specified user is a manager by querying the database.
+     */
+     fun checkUserAdmin(db: SQLiteDatabase, userName: String): Boolean {
+        val cursor = db.rawQuery("SELECT * FROM users WHERE name = ? AND role = 'admin'", arrayOf(userName))
+        val isAdmin = cursor.count > 0 // If the cursor has any results, the user is an admin
+        cursor.close()
+        return isAdmin
     }
 
     // Store the logged-in user's name
@@ -207,4 +265,3 @@ class UserRepository(context: Context) {
 //    val requestDate: String,
 //    val status: String
 //)
-
