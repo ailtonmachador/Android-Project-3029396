@@ -16,7 +16,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var usernameEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var loginButton: Button
-    private lateinit var messageTextView: TextView
     private lateinit var userRepository: UserRepository
 
 
@@ -33,7 +32,7 @@ class LoginActivity : AppCompatActivity() {
         usernameEditText = findViewById(R.id.usernameEditText)
         passwordEditText = findViewById(R.id.passwordEditText)
         loginButton = findViewById(R.id.loginButton)
-        messageTextView = findViewById(R.id.messageTextView)
+
 
         // Set an OnClickListener for the loginButton
         loginButton.setOnClickListener {
