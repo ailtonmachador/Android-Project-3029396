@@ -1,6 +1,7 @@
 package com.griffith.user5
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.util.Log
 import android.view.GestureDetector
@@ -9,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread
 import com.griffith.user5.R
 import okhttp3.*
 import org.json.JSONObject
@@ -36,7 +38,7 @@ import java.io.IOException
  * - OkHttp: For making HTTP requests to Nominatim API to get location details.
  * - JSON: For parsing the response from Nominatim API.
  */
-class Map : AppCompatActivity() {
+class Map : BaseActivity()  {
     private lateinit var mapView: MapView
     private var currentMarker: Marker? = null
     private lateinit var searchEditText: EditText
@@ -48,6 +50,12 @@ class Map : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.map_view)
+        // Setup navigation drawer
+        setupDrawer(
+            toolbarId = R.id.toolbar,
+            drawerLayoutId = R.id.drawer_layout,
+            navigationViewId = R.id.navigation_view
+        )
 
         userRepository = UserRepository(this)
         val context = applicationContext

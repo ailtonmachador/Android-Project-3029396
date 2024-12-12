@@ -42,12 +42,14 @@ class SelectDayOff : BaseActivity() {
         // Check if the logged-in user is a manager
         val loggedInUser = userRepository.getLoggedInUserName()
         isManager = loggedInUser?.let {
-            checkUserAdmin(userDatabaseHelper.readableDatabase, it)
+           userRepository.checkUserAdmin(userDatabaseHelper.readableDatabase, it)
         } ?: false
+
 
         // Set button text and functionality based on the user role
         if (isManager) {
             btnSubmitRequest.text = "Check Pending Requests"
+            datePicker.visibility = DatePicker.GONE
         }
 
         // Define button click behavior
@@ -101,13 +103,13 @@ class SelectDayOff : BaseActivity() {
         db.execSQL(sql, arrayOf(userName, date))
     }
 
-    /**
-     * Checks if the specified user is a manager by querying the database.
-     */
-    private fun checkUserAdmin(db: SQLiteDatabase, userName: String): Boolean {
-        val cursor = db.rawQuery("SELECT * FROM users WHERE name = ? AND role = 'admin'", arrayOf(userName))
-        val isAdmin = cursor.count > 0 // If the cursor has any results, the user is an admin
-        cursor.close()
-        return isAdmin
-    }
+//    /**
+//     * Checks if the specified user is a manager by querying the database.
+//     */
+//    private fun checkUserAdmin(db: SQLiteDatabase, userName: String): Boolean {
+//        val cursor = db.rawQuery("SELECT * FROM users WHERE name = ? AND role = 'admin'", arrayOf(userName))
+//        val isAdmin = cursor.count > 0 // If the cursor has any results, the user is an admin
+//        cursor.close()
+//        return isAdmin
+//    }
 }

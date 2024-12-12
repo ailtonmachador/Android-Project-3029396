@@ -54,15 +54,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
-                <!-- Button to show all day off requests -->
-                <Button
-                    android:id="@+id/btnShowRequests"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Show Requests"
-                    android:layout_marginTop="16dp"
-                    android:layout_gravity="center" />
-
                 <!-- RecyclerView to display a list of requests -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewRequests"

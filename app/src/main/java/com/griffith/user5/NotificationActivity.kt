@@ -7,8 +7,10 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
@@ -25,6 +27,11 @@ class NotificationActivity : BaseActivity() {
     private lateinit var messageEditText: EditText
     private lateinit var userSpinner: Spinner // Spinner to display the list of users
     private lateinit var checkMsgButton: Button
+    private lateinit var buttonLabel_CheckMessages:TextView
+    private lateinit var buttonLabel_sendMensage: TextView
+
+    private var isManager: Boolean = false
+    private val userDatabaseHelper = UserDatabaseHelper(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +54,24 @@ class NotificationActivity : BaseActivity() {
         userSpinner = findViewById(R.id.userSpinner)
         sendButton = findViewById(R.id.sendButton)
         checkMsgButton = findViewById(R.id.checkMsgButton)
+        buttonLabel_CheckMessages = findViewById(R.id.buttonLabel_CheckMessages)
+        buttonLabel_sendMensage = findViewById(R.id.buttonLabel_sendMensage)
+
+        // Check if the logged-in user is a manager
+        val loggedInUser = userRepository.getLoggedInUserName()
+        isManager = loggedInUser?.let {
+            userRepository.checkUserAdmin(userDatabaseHelper.readableDatabase, it)
+        } ?: false
+
+        // Set button text and functionality based on the user role
+        if (isManager) {
+            checkMsgButton.visibility = Button.GONE
+            buttonLabel_CheckMessages.visibility = TextView.GONE
+        }else{
+            sendButton.visibility = Button.GONE
+            buttonLabel_sendMensage.visibility = TextView.GONE
+
+        }
 
         // Handle the send button click to send a message to the selected user
         sendButton.setOnClickListener {
@@ -56,6 +81,7 @@ class NotificationActivity : BaseActivity() {
             val userId = userRepository.getUserIdByName(selectedUserName)
 
             if (userId != null) {
+                userRepository.sendMessage(userId,message)
                 // Log the user ID and message for debugging
                 Log.d("NotificationActivity", "User ID: $userId, Message: $message")
                 Toast.makeText(this, "Message sent!", Toast.LENGTH_SHORT).show() // Show confirmation
@@ -63,6 +89,7 @@ class NotificationActivity : BaseActivity() {
                 Toast.makeText(this, "User not found!", Toast.LENGTH_SHORT).show() // Show error if user not found
             }
         }
+
 
         // Handle the check messages button click to navigate to the messages activity
         checkMsgButton.setOnClickListener {
