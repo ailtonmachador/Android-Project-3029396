@@ -29,6 +29,7 @@ class NotificationActivity : BaseActivity() {
     private lateinit var checkMsgButton: Button
     private lateinit var buttonLabel_CheckMessages:TextView
     private lateinit var buttonLabel_sendMensage: TextView
+    private lateinit var  send_msg_to: TextView
 
     private var isManager: Boolean = false
     private val userDatabaseHelper = UserDatabaseHelper(this)
@@ -56,6 +57,7 @@ class NotificationActivity : BaseActivity() {
         checkMsgButton = findViewById(R.id.checkMsgButton)
         buttonLabel_CheckMessages = findViewById(R.id.buttonLabel_CheckMessages)
         buttonLabel_sendMensage = findViewById(R.id.buttonLabel_sendMensage)
+        send_msg_to = findViewById(R.id.send_msg_to)
 
         // Check if the logged-in user is a manager
         val loggedInUser = userRepository.getLoggedInUserName()
@@ -70,7 +72,9 @@ class NotificationActivity : BaseActivity() {
         }else{
             sendButton.visibility = Button.GONE
             buttonLabel_sendMensage.visibility = TextView.GONE
-
+            messageEditText.visibility = Button.GONE
+            userSpinner.visibility = Spinner.GONE
+            send_msg_to.visibility = TextView.GONE
         }
 
         // Handle the send button click to send a message to the selected user
