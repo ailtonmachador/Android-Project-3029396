@@ -11,6 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
         <!-- Toolbar -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -62,6 +63,17 @@
                     android:textColor="#000000"
                     android:gravity="top|start"
                     android:layout_marginBottom="16dp" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/lottieAnimationView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    app:lottie_rawRes="@raw/loading_animation"
+                    app:lottie_autoPlay="false"
+                    app:lottie_loop="false" />
+
 
                 <!-- GridLayout for buttons -->
                 <GridLayout

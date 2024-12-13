@@ -4,7 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.DatePicker
@@ -13,6 +16,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.airbnb.lottie.LottieAnimationView
 
 /**
  * NotificationActivity handles the functionality for sending and viewing notifications.
@@ -30,6 +34,7 @@ class NotificationActivity : BaseActivity() {
     private lateinit var buttonLabel_CheckMessages:TextView
     private lateinit var buttonLabel_sendMensage: TextView
     private lateinit var  send_msg_to: TextView
+    private lateinit var lottieAnimationView: LottieAnimationView
 
     private var isManager: Boolean = false
     private val userDatabaseHelper = UserDatabaseHelper(this)
@@ -58,6 +63,12 @@ class NotificationActivity : BaseActivity() {
         buttonLabel_CheckMessages = findViewById(R.id.buttonLabel_CheckMessages)
         buttonLabel_sendMensage = findViewById(R.id.buttonLabel_sendMensage)
         send_msg_to = findViewById(R.id.send_msg_to)
+        lottieAnimationView = findViewById(R.id.lottieAnimationView)
+
+
+        val animationDuration = lottieAnimationView.duration // animation time
+        val additionalDelay = 1000L
+
 
         // Check if the logged-in user is a manager
         val loggedInUser = userRepository.getLoggedInUserName()
@@ -97,6 +108,20 @@ class NotificationActivity : BaseActivity() {
 
         // Handle the check messages button click to navigate to the messages activity
         checkMsgButton.setOnClickListener {
+            //hide the button to loading animation output better
+            checkMsgButton.visibility = Button.GONE
+
+           //loading animation
+            lottieAnimationView.visibility = View.VISIBLE
+            lottieAnimationView.playAnimation()
+
+            //hide animation after 3 seconds
+            Handler(Looper.getMainLooper()).postDelayed({
+                // Parar e ocultar a animação após a duração total
+                lottieAnimationView.cancelAnimation()
+                lottieAnimationView.visibility = View.GONE
+                checkMsgButton.visibility = Button.VISIBLE
+            }, animationDuration + additionalDelay)
             val intent = Intent(this, MessagesActivity::class.java)
             startActivity(intent)
         }

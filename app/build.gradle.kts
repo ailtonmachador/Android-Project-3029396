@@ -73,6 +73,8 @@ dependencies {
     implementation(libs.osmdroid.android)
     implementation(libs.okhttp3.okhttp)
     implementation(libs.androidx.espresso.core)
+    implementation (libs.lottie)//to delete
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
