@@ -4,46 +4,67 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:gravity="center_horizontal"
+    android:background="@drawable/layout_border"
+    android:padding="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="8dp"
+    android:layout_marginBottom="16dp"
+    android:layout_marginTop="16dp">
 
     <TextView
         android:id="@+id/nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Employee Name"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textSize="18sp"
+        android:textStyle="bold"
+
+        android:paddingBottom="8dp" />
 
     <TextView
         android:id="@+id/dayTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Request Date"
-        android:textSize="14sp" />
+        android:textSize="16sp"
+
+        android:paddingBottom="4dp" />
 
     <TextView
         android:id="@+id/statusTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Status"
-        android:textSize="14sp"
-        android:textColor="@color/black" />
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+        android:textSize="16sp"
 
-    <Button
-        android:id="@+id/approvedButton"
+        android:paddingBottom="16dp" />
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Approved"
-        android:layout_marginTop="8dp" />
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="8dp">
 
-    <Button
-        android:id="@+id/rejectButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Reject"
-        android:layout_marginTop="8dp" />
-</LinearLayout>
+        <Button
+            android:id="@+id/approvedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Approved"
+
+            android:layout_marginEnd="8dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp" />
+
+        <Button
+            android:id="@+id/rejectButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reject"
+
+
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp" />
+    </LinearLayout>
 </LinearLayout>

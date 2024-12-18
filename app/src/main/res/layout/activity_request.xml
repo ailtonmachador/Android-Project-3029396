@@ -39,7 +39,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="16dp"
+                    >
 
                     <!-- DatePicker for the user to select the day off request date -->
                     <DatePicker
@@ -55,7 +56,8 @@
                         android:layout_height="wrap_content"
                         android:text="Request Day Off"
                         android:layout_marginTop="16dp"
-                        android:layout_gravity="center" />
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/purple"/>
 
                     <!-- RecyclerView to display a list of requests -->
                     <androidx.recyclerview.widget.RecyclerView

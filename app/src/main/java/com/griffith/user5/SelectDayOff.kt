@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.widget.Button
 import android.widget.DatePicker
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 /**
@@ -58,6 +59,9 @@ class SelectDayOff : BaseActivity() {
                 navigateToRequestActivity() // Navigate to the request management activity for managers
             } else {
                 submitDayOffRequest() // Submit a day-off request for regular users
+                Toast.makeText(this, "Request sent!!!!!", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
             }
         }
 
@@ -103,13 +107,4 @@ class SelectDayOff : BaseActivity() {
         db.execSQL(sql, arrayOf(userName, date))
     }
 
-//    /**
-//     * Checks if the specified user is a manager by querying the database.
-//     */
-//    private fun checkUserAdmin(db: SQLiteDatabase, userName: String): Boolean {
-//        val cursor = db.rawQuery("SELECT * FROM users WHERE name = ? AND role = 'admin'", arrayOf(userName))
-//        val isAdmin = cursor.count > 0 // If the cursor has any results, the user is an admin
-//        cursor.close()
-//        return isAdmin
-//    }
 }

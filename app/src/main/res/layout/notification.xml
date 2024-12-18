@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/loginbkg">
 
     <!-- Main LinearLayout -->
     <LinearLayout
@@ -38,6 +39,8 @@
                 <!-- Spinner for selecting user -->
                 <Spinner
                     android:id="@+id/userSpinner"
+                    android:textColorHighlight="@color/cardview_dark_background"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp" />
@@ -93,7 +96,7 @@
 
                         <Button
                             android:id="@+id/checkMsgButton"
-                            android:layout_width="80dp"
+                            android:layout_width="match_parent"
                             android:layout_height="80dp"
                             android:background="@drawable/ic_launcher_foreground"
                             android:contentDescription="Check Messages"

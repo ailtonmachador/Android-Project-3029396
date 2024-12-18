@@ -31,9 +31,9 @@ class NotificationActivity : BaseActivity() {
     private lateinit var messageEditText: EditText
     private lateinit var userSpinner: Spinner // Spinner to display the list of users
     private lateinit var checkMsgButton: Button
-    private lateinit var buttonLabel_CheckMessages:TextView
+    private lateinit var buttonLabel_CheckMessages: TextView
     private lateinit var buttonLabel_sendMensage: TextView
-    private lateinit var  send_msg_to: TextView
+    private lateinit var send_msg_to: TextView
     private lateinit var lottieAnimationView: LottieAnimationView
 
     private var isManager: Boolean = false
@@ -80,7 +80,7 @@ class NotificationActivity : BaseActivity() {
         if (isManager) {
             checkMsgButton.visibility = Button.GONE
             buttonLabel_CheckMessages.visibility = TextView.GONE
-        }else{
+        } else {
             sendButton.visibility = Button.GONE
             buttonLabel_sendMensage.visibility = TextView.GONE
             messageEditText.visibility = Button.GONE
@@ -90,18 +90,23 @@ class NotificationActivity : BaseActivity() {
 
         // Handle the send button click to send a message to the selected user
         sendButton.setOnClickListener {
-            val selectedUserName = userSpinner.selectedItem.toString() // Get selected user from spinner
+            val selectedUserName =
+                userSpinner.selectedItem.toString() // Get selected user from spinner
             val message = messageEditText.text.toString() // Get message input
             // Retrieve the user ID based on the selected user name
             val userId = userRepository.getUserIdByName(selectedUserName)
 
             if (userId != null) {
-                userRepository.sendMessage(userId,message)
+                userRepository.sendMessage(userId, message)
                 // Log the user ID and message for debugging
                 Log.d("NotificationActivity", "User ID: $userId, Message: $message")
-                Toast.makeText(this, "Message sent!", Toast.LENGTH_SHORT).show() // Show confirmation
+                Toast.makeText(this, "Message sent!", Toast.LENGTH_SHORT)
+                    .show() // Show confirmation
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
             } else {
-                Toast.makeText(this, "User not found!", Toast.LENGTH_SHORT).show() // Show error if user not found
+                Toast.makeText(this, "User not found!", Toast.LENGTH_SHORT)
+                    .show() // Show error if user not found
             }
         }
 
@@ -111,13 +116,13 @@ class NotificationActivity : BaseActivity() {
             //hide the button to loading animation output better
             checkMsgButton.visibility = Button.GONE
 
-           //loading animation
+            //loading animation
             lottieAnimationView.visibility = View.VISIBLE
             lottieAnimationView.playAnimation()
 
             //hide animation after 3 seconds
             Handler(Looper.getMainLooper()).postDelayed({
-                // Parar e ocultar a animação após a duração total
+                // stop animation after couple seconds
                 lottieAnimationView.cancelAnimation()
                 lottieAnimationView.visibility = View.GONE
                 checkMsgButton.visibility = Button.VISIBLE
@@ -131,11 +136,13 @@ class NotificationActivity : BaseActivity() {
         val messages = userRepository.getMsgByName(loggedInUserName)
 
         if (messages.isNotEmpty()) {
-            val messageString = messages.joinToString("\n") // Convert message list to a single string
-            Log.d("NotificationActivity", "Messages retrieved: $messages")
-            Toast.makeText(this, messageString, Toast.LENGTH_SHORT).show() // Display messages
+            val messageString =
+                messages.joinToString("\n") // Convert message list to a single string
+            //Log.d("NotificationActivity", "Messages retrieved: $messages")
+            // Toast.makeText(this, messageString, Toast.LENGTH_SHORT).show() // Display messages
         } else {
-            Toast.makeText(this, "No messages found for $loggedInUserName", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "No messages found for $loggedInUserName", Toast.LENGTH_SHORT)
+                .show()
         }
 
         // Populate the user spinner with user names
