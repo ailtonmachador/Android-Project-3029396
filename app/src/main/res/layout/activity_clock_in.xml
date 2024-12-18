@@ -34,7 +34,35 @@
         android:textSize="18sp"
         android:padding="16dp" />
 
-    <Button
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottieAnimationViewLocation"
+                android:layout_width="400dp"
+                android:layout_height="400dp"
+                android:layout_gravity="center"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/finding_location" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/LocationPositive"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/location_positive" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/LocationDenied"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/location_denied" />
+
+
+            <Button
         android:id="@+id/checkInButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

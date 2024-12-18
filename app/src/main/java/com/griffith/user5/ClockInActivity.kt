@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlin.math.pow
+import com.airbnb.lottie.LottieAnimationView  //animation
 
 class ClockInActivity : BaseActivity() {
     // Declare variables to handle location and UI elements
@@ -26,6 +27,9 @@ class ClockInActivity : BaseActivity() {
     private var allowedLongitude = 0.0// Longitude of the allowed location
     private var allowedRadius = 0.0 // Radius in meters for the allowed check-in area
     private lateinit var userRepository: UserRepository
+    private lateinit var animationViewFindingLocation: LottieAnimationView //for animation
+    private lateinit var animationViewLocationPositive: LottieAnimationView
+    private lateinit var animationViewFindingLocationDenied: LottieAnimationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,15 +57,24 @@ class ClockInActivity : BaseActivity() {
         }
 
 
+
         // Initialize UI elements (TextView and Button)
         locationTextView = findViewById(R.id.locationTextView)
         checkInButton = findViewById(R.id.checkInButton)
+        animationViewFindingLocation = findViewById(R.id.lottieAnimationViewLocation) // Initialize the animation view
+        animationViewLocationPositive = findViewById(R.id.LocationPositive) // Initialize the animation view
+        animationViewFindingLocationDenied = findViewById(R.id.LocationDenied) // Initialize the animation view
 
         // Initialize the location client to get location services
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
+        //animation for location start invisible
+        animationViewLocationPositive.visibility = LottieAnimationView.GONE
+        animationViewFindingLocationDenied.visibility = LottieAnimationView.GONE
+
         // Set click listener on the check-in button
         checkInButton.setOnClickListener {
+
             // Check if the app has the necessary location permission
             if (ActivityCompat.checkSelfPermission(
                     this,
@@ -75,6 +88,8 @@ class ClockInActivity : BaseActivity() {
                     1
                 )
             } else {
+                // Start the animation
+//                animationView.playAnimation()
                 // If permission is granted, proceed to get the location
                 getLastLocation()
             }
@@ -103,17 +118,22 @@ class ClockInActivity : BaseActivity() {
                 if (location != null) {
                     val latitude = location.latitude
                     val longitude = location.longitude
+                    //hide finding location animation
+                    animationViewFindingLocation .visibility = LottieAnimationView.GONE
 
                     // Check if the location is within the allowed area
                     if (isWithinAllowedArea(latitude, longitude)) {
-                        // If within the allowed area, show success message
-                        locationTextView.text = "Check-in done in the permited location $latitude $longitude"
+                        // If within the allowed area, show success message and show positive animation
+
+                        locationTextView.text = "Check-in done in the permited location $latitude $longitude \n"
                         Toast.makeText(this, "Check-in done!", Toast.LENGTH_SHORT).show()
+                        animationViewLocationPositive.visibility = LottieAnimationView.VISIBLE
                     } else {
                         // If outside the allowed area, show error message
-                        locationTextView.text = "You are not in the permited location for check-in!" +
-                                "$latitude, $longitude" +
-                                "you should be in $allowedLatitude, $allowedLongitude with radios $allowedRadius"
+                        locationTextView.text = "You are not in the permited location for check-in!\n" +
+                                "$latitude, $longitude \n" +
+                                "you should be in $allowedLatitude, $allowedLongitude"
+                        animationViewFindingLocationDenied.visibility = LottieAnimationView.VISIBLE
 
                         Toast.makeText(
                             this,

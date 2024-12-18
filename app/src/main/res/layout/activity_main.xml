@@ -72,6 +72,7 @@
                         android:layout_height="64dp"
                         android:background="@drawable/ic_request_day_off" />
 
+
                     <TextView
                         android:id="@+id/buttonLabel_dayOff"
                         android:layout_width="wrap_content"
